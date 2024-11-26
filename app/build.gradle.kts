@@ -1,5 +1,8 @@
 plugins {
-    alias(libs.plugins.android.application)
+    id("com.android.application")
+    id("com.google.gms.google-services")
+    //alias(libs.plugins.android.application)
+
 }
 
 android {
@@ -32,6 +35,10 @@ android {
 }
 
 dependencies {
+    implementation(platform("com.google.firebase:firebase-bom:33.6.0"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation ("com.google.firebase:firebase-auth:22.1.0")
+    implementation ("com.google.firebase:firebase-database:20.2.0") // For storing TMDb data
 
     implementation(libs.appcompat)
     implementation(libs.material)
