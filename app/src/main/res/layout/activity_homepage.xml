@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Homepage">
+
+    <!-- button width = 200dp -->
+    <Button
+        android:id="@+id/searchButton"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="124dp"
+        android:layout_marginEnd="124dp"
+        android:layout_marginBottom="27dp"
+        android:backgroundTint="@color/red"
+        android:text="@string/searchPage"
+        android:textColor="@color/black"
+        android:textSize="17dp"
+        app:layout_constraintBottom_toTopOf="@+id/reviewButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Logo" />
+
+    <Button
+        android:id="@+id/reviewButton"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="124dp"
+        android:layout_marginEnd="124dp"
+        android:layout_marginBottom="27dp"
+        android:backgroundTint="@color/red"
+        android:text="@string/reviewPage"
+        android:textColor="@color/black"
+        android:textSize="17dp"
+        app:layout_constraintBottom_toTopOf="@+id/watchlistButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchButton" />
+
+    <Button
+        android:id="@+id/watchlistButton"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="124dp"
+        android:layout_marginEnd="124dp"
+        android:layout_marginBottom="192dp"
+        android:backgroundTint="@color/red"
+        android:text="@string/watchlist"
+        android:textColor="@color/black"
+        android:textSize="17dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reviewButton" />
+
+    <ImageView
+        android:id="@+id/Logo"
+        android:layout_width="293dp"
+        android:layout_height="377dp"
+        android:layout_marginStart="59dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="59dp"
+        app:layout_constraintBottom_toTopOf="@+id/searchButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo" />
+</androidx.constraintlayout.widget.ConstraintLayout>
