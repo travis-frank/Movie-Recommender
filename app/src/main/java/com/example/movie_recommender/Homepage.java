@@ -15,6 +15,7 @@ public class Homepage extends AppCompatActivity {
     Button search;
     Button review;
     Button watchlist;
+    Button flickfinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,16 @@ public class Homepage extends AppCompatActivity {
                 // startActivity(intent);
             }
         });
+
+        flickfinder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Intent intent = new Intent(Homepage.this, flickFinderActivity.class)
+                // startActivity(intent);
+            }
+        });
+
+
 
 
 
