@@ -188,9 +188,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void navigateToHome(String accountId) {
         // Navigate to the homepage
-        //Intent intent = new Intent(this, HomePageActivity.class); // Replace with your Homepage Activity
-        //intent.putExtra("accountId", accountId);
-       // startActivity(intent);
+        Intent intent = new Intent(this, Homepage.class); // Replace with your Homepage Activity
+        intent.putExtra("accountId", accountId);
+        startActivity(intent);
         finish(); // Close the login activity
     }
 }
