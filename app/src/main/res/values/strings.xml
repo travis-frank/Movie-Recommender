@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Movie-Recommender</string>
+    <string name="searchPage">Search For Movies</string>
+    <string name="reviewPage">Review Movies</string>
+    <string name="watchlist">Your Watchlist</string>
+    <string name="flickfinder">Flick Finder</string>
 </resources>

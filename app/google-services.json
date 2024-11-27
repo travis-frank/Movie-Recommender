@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "711701706906",
+    "project_id": "movie-recommender-62293",
+    "storage_bucket": "movie-recommender-62293.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:711701706906:android:2510acd77eadf3df0bc723",
+        "android_client_info": {
+          "package_name": "com.example.movie_recommender"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDaQYOoHu0b2KZCmEMITDISt30HqHUSZCc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
