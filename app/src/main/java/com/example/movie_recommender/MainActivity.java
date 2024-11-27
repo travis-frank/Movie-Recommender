@@ -191,6 +191,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, Homepage.class); // Replace with your Homepage Activity
         intent.putExtra("accountId", accountId);
         startActivity(intent);
-        finish(); // Close the login activity
+        finish();
     }
 }
