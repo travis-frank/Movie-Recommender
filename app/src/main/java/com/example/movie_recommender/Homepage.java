@@ -31,12 +31,13 @@ public class Homepage extends AppCompatActivity {
         search = findViewById(R.id.searchButton);
         review = findViewById(R.id.reviewButton);
         watchlist = findViewById(R.id.watchlistButton);
+        flickfinder = findViewById(R.id.flickFinderButton);
 
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Intent intent = new Intent(Homepage.this, searchActivity.class);
-                // startActivity(intent);
+                 Intent intent = new Intent(Homepage.this, SearchMovie.class);
+                 startActivity(intent);
             }
         });
 
