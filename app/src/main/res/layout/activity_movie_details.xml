@@ -1,0 +1,138 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MovieDetailsActivity">
+
+    <!-- Movie Poster -->
+
+    <!-- Movie Title -->
+
+    <!-- Description -->
+
+    <!-- Runtime -->
+
+    <!-- Language -->
+
+    <!-- Popularity -->
+
+    <!-- Vote Average -->
+
+    <!-- Homepage URL -->
+
+    <ImageView
+        android:id="@+id/movieImageView"
+        android:layout_width="396dp"
+        android:layout_height="405dp"
+        android:contentDescription="Movie Poster"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.466"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.168" />
+
+    <TextView
+        android:id="@+id/movieNameView"
+        android:layout_width="383dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="1dp"
+        android:text="Movie Title"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/descriptionView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/movieImageView" />
+
+    <TextView
+        android:id="@+id/descriptionView"
+        android:layout_width="385dp"
+        android:layout_height="117dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="16dp"
+        android:text="Description"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/languageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/movieNameView" />
+
+    <TextView
+        android:id="@+id/runtimeView"
+        android:layout_width="384dp"
+        android:layout_height="23dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="17dp"
+        android:text="Runtime"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/popularityView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/languageView" />
+
+    <TextView
+        android:id="@+id/languageView"
+        android:layout_width="388dp"
+        android:layout_height="23dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="13dp"
+        android:layout_marginBottom="1dp"
+        android:text="Language"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/runtimeView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/descriptionView" />
+
+    <TextView
+        android:id="@+id/popularityView"
+        android:layout_width="387dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="1dp"
+        android:text="Popularity"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/vote"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/runtimeView" />
+
+    <TextView
+        android:id="@+id/vote"
+        android:layout_width="387dp"
+        android:layout_height="21dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="15dp"
+        android:text="Votes"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/movieURL"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/popularityView" />
+
+    <TextView
+        android:id="@+id/movieURL"
+        android:layout_width="387dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="16dp"
+        android:text="Homepage URL"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vote" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

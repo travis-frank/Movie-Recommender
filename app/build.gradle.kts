@@ -39,6 +39,7 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation ("com.google.firebase:firebase-auth:22.1.0")
     implementation ("com.google.firebase:firebase-database:20.2.0") // For storing TMDb data
+    implementation ("com.squareup.picasso:picasso:2.8") // for displaying image of movies
 
     implementation(libs.appcompat)
     implementation(libs.material)

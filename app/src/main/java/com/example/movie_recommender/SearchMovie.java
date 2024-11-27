@@ -145,10 +145,10 @@ public class SearchMovie extends AppCompatActivity {
                             @Override
                             public void onClick(View widget) {
                                 if (!movieId.equals("N/A")) {
-                                    //Intent to start the MovieDetailsActivity
-                                    //Intent intent = new Intent(SearchMovie.this, MovieDetailsActivity.class);
-                                    //intent.putExtra("MOVIE_ID", movieId);
-                                    //startActivity(intent);
+                                    // Intent to start the MovieDetailsActivity
+                                    Intent intent = new Intent(SearchMovie.this, MovieDetailsActivity.class);
+                                    intent.putExtra("MOVIE_ID", movieId);
+                                    startActivity(intent);
                                 } else {
                                     Toast.makeText(SearchMovie.this, "Movie ID not available.", Toast.LENGTH_SHORT).show();
                                 }
