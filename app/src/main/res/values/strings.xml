@@ -3,4 +3,5 @@
     <string name="searchPage">Search For Movies</string>
     <string name="reviewPage">Review Movies</string>
     <string name="watchlist">Your Watchlist</string>
+    <string name="flickfinder">Flick Finder</string>
 </resources>
