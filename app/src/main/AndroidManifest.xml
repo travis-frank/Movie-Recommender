@@ -15,6 +15,9 @@
         android:theme="@style/Theme.MovieRecommender"
         tools:targetApi="31">
         <activity
+            android:name=".FlickFinder"
+            android:exported="false" />
+        <activity
             android:name=".MovieDetailsActivity"
             android:exported="false" />
         <activity
