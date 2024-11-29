@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +37,8 @@ public class MovieDetailsActivity extends AppCompatActivity {
     private TextView popularityView;                                                                // To show popularity
     private TextView voteView;                                                                      // To show vote average and count
     private TextView movieUrl;                                                                      // To show homepage URL
+    private ImageButton back;                                                                       // To go to previous page
+    private ImageButton home;                                                                       // To go to home page
 
     private static final String API_KEY = "84c9ef7e66fdc40d8347137e2afcf2eb";                       // API for movies TMDB
     @Override
@@ -56,6 +61,27 @@ public class MovieDetailsActivity extends AppCompatActivity {
         popularityView = findViewById(R.id.popularityView);
         voteView = findViewById(R.id.vote);
         movieUrl = findViewById(R.id.movieURL);
+        back = findViewById(R.id.backButton);
+        home = findViewById(R.id.homeButton);
+
+        // when User clicks back button it will take them to the previous page by closing the current page
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        // when user clicks home button it will take them to the homepage
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MovieDetailsActivity.this, Homepage.class);
+                startActivity(intent);
+            }
+        });
+
+
 
         String movieId = getIntent().getStringExtra("MOVIE_ID");                              // gets movie ID from intent
         if (movieId != null){
@@ -141,15 +167,17 @@ public class MovieDetailsActivity extends AppCompatActivity {
                 voteView.setText("Rating: " + voteAverage + " / 10 (" + voteCount + " votes)");
 
                 // Set homepage URL
-                if (!homepage.equals("N/A")) {
+                // Set homepage URL
+                if (homepage != null && !homepage.isEmpty()) {
                     movieUrl.setText("Visit Homepage");
                     movieUrl.setOnClickListener(view -> {
                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(homepage));
                         startActivity(intent);
                     });
                 } else {
-                    movieUrl.setText("Homepage: Not Available");
+                    movieUrl.setVisibility(View.GONE);
                 }
+
 
                 // Load image using Picasso library
                 if (imagePath != null) {
