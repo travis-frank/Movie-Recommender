@@ -42,6 +42,8 @@ public class MovieDetailsActivity extends AppCompatActivity {
     private ImageButton back;                                                                       // To go to previous page
     private ImageButton home;                                                                       // To go to home page
     private ImageButton add;
+    private Button reviewButton;
+    private String movieId;
 
     private static final String API_KEY = "84c9ef7e66fdc40d8347137e2afcf2eb";                       // API for movies TMDB
     private String movieId;
@@ -71,6 +73,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         back = findViewById(R.id.backButton);
         home = findViewById(R.id.homeButton);
         add = findViewById(R.id.addButton);
+        reviewButton = findViewById(R.id.reviewpage);
 
         // Navigate back
         back.setOnClickListener(view -> finish());
@@ -81,9 +84,23 @@ public class MovieDetailsActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        movieId = getIntent().getStringExtra("MOVIE_ID");                              // Get movie ID from intent
-        if (movieId != null) {
-            new FetchMovieDetails().execute(movieId);                                               // Start fetching movie
+        // when user clicks review page it will take them to the review activity
+        reviewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (movieId != null & movieTitle != null)  { // Ensure movieId is not null
+                    //Intent intent = new Intent(MovieDetailsActivity.this, reviewPage.class);
+                    //intent.putExtra("MOVIE_ID", movieId); // Pass the movie ID to the next activity
+                    //intent.putExtra("MOVIE_NAME", movieTitle);
+                    //startActivity(intent);
+                }
+            }
+        });
+
+        movieId = getIntent().getStringExtra("MOVIE_ID");                              // gets movie ID from intent
+        if (movieId != null){
+            new FetchMovieDetails().execute(movieId);                                               // start fetching movie
+
         } else {
             Toast.makeText(this, "Movie is Missing!!!", Toast.LENGTH_SHORT).show();
         }
@@ -149,7 +166,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            String movieId = params[0];
+            movieId = params[0];
             String urlString = TMDB_MOVIE_DETAILS_URL + movieId + "?api_key=" + API_KEY;
 
             try {

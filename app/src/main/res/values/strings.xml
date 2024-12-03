@@ -4,6 +4,7 @@
     <string name="reviewPage">Review Movies</string>
     <string name="watchlist">Your Watchlist</string>
     <string name="flickfinder">Flick Finder</string>
+    <string name="reviewButton"> Review Page</string>
 
     <string-array name="movie_genres">
         <item> </item>
