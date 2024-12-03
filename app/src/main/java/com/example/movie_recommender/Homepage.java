@@ -44,8 +44,8 @@ public class Homepage extends AppCompatActivity {
         review.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Intent intent = new Intent(Homepage.this, reviewActivity.class);
-                // startActivity(intent);
+                 Intent intent = new Intent(Homepage.this, ReviewMovie.class);
+                 startActivity(intent);
             }
         });
 

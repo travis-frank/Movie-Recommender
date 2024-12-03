@@ -15,6 +15,9 @@
         android:theme="@style/Theme.MovieRecommender"
         tools:targetApi="31">
         <activity
+            android:name=".ReviewMovie"
+            android:exported="false" />
+        <activity
             android:name=".Watchlist"
             android:exported="false" />
         <activity
@@ -30,7 +33,7 @@
             android:name=".Homepage"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".MainAcitivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
