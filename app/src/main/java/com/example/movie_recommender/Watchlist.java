@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -19,6 +21,7 @@ import java.util.ArrayList;
 public class Watchlist extends AppCompatActivity {
     private ListView watchlistView;
     private JSONArray watchlist; // To keep track of the JSON array
+    private ImageButton back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,9 +29,12 @@ public class Watchlist extends AppCompatActivity {
         setContentView(R.layout.activity_watchlist);
 
         watchlistView = findViewById(R.id.watchlistView);
+        back = findViewById(R.id.backButton);
 
         // Load watchlist
         loadWatchlist();
+
+        back.setOnClickListener(view -> finish());
 
         // Set item click listener to navigate to MovieDetailsActivity
         watchlistView.setOnItemClickListener((AdapterView<?> parent, android.view.View view, int position, long id) -> {
