@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,7 +13,9 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.ColorInt;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -31,21 +32,20 @@ import java.net.URL;
 
 public class MovieDetailsActivity extends AppCompatActivity {
 
-    private ImageView movieImage;                                                                   // To show movie poster
-    private TextView movieTitle;                                                                    // To show movie title
-    private TextView description;                                                                   // To show movie description
-    private TextView runtimeView;                                                                   // To show runtime
-    private TextView languageView;                                                                  // To show language
-    private TextView popularityView;                                                                // To show popularity
-    private TextView voteView;                                                                      // To show vote average and count
-    private TextView movieUrl;                                                                      // To show homepage URL
-    private ImageButton back;                                                                       // To go to previous page
-    private ImageButton home;                                                                       // To go to home page
+    private ImageView movieImage;
+    private TextView movieTitle;
+    private TextView description;
+    private TextView runtimeView;
+    private TextView languageView;
+    private TextView popularityView;
+    private TextView voteView;
+    private TextView movieUrl;
+    private ImageButton back;
+    private ImageButton home;
     private ImageButton add;
-    private Button reviewButton;
     private String movieId;
 
-    private static final String API_KEY = "84c9ef7e66fdc40d8347137e2afcf2eb";                       // API for movies TMDB
+    private static final String API_KEY = "84c9ef7e66fdc40d8347137e2afcf2eb";
     private String title;
     private String imagePath;
 
@@ -72,7 +72,6 @@ public class MovieDetailsActivity extends AppCompatActivity {
         back = findViewById(R.id.backButton);
         home = findViewById(R.id.homeButton);
         add = findViewById(R.id.addButton);
-        reviewButton = findViewById(R.id.reviewpage);
 
         // Navigate back
         back.setOnClickListener(view -> finish());
@@ -83,76 +82,93 @@ public class MovieDetailsActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // when user clicks review page it will take them to the review activity
-        reviewButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (movieId != null & movieTitle != null)  { // Ensure movieId is not null
-                    //Intent intent = new Intent(MovieDetailsActivity.this, reviewPage.class);
-                    //intent.putExtra("MOVIE_ID", movieId); // Pass the movie ID to the next activity
-                    //intent.putExtra("MOVIE_NAME", movieTitle);
-                    //startActivity(intent);
-                }
-            }
-        });
-
-        movieId = getIntent().getStringExtra("MOVIE_ID");                              // gets movie ID from intent
-        if (movieId != null){
-            new FetchMovieDetails().execute(movieId);                                               // start fetching movie
-
+        movieId = getIntent().getStringExtra("MOVIE_ID");
+        if (movieId != null) {
+            new FetchMovieDetails().execute(movieId);
         } else {
             Toast.makeText(this, "Movie is Missing!!!", Toast.LENGTH_SHORT).show();
         }
 
-        // Add movie to watchlist
+        // Handle add/remove button click
         add.setOnClickListener(view -> {
             if (movieId != null && title != null) {
-                try {
-                    JSONObject movie = new JSONObject();
-                    movie.put("id", movieId);
-                    movie.put("title", title);
-                    movie.put("poster_path", imagePath);
-
-                    // Add movie to watchlist
-                    if (addToWatchlist(movie)) {
-                        Toast.makeText(MovieDetailsActivity.this, "Added to Watchlist", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(MovieDetailsActivity.this, "Already in Watchlist", Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                toggleWatchlist();
             }
         });
+
+        // Check initial button state
+        updateAddButtonState();
     }
 
-    // Add movie to watchlist in SharedPreferences
-    private boolean addToWatchlist(JSONObject movie) {
+    private void toggleWatchlist() {
         SharedPreferences sharedPreferences = getSharedPreferences("WatchlistPrefs", MODE_PRIVATE);
         String watchlistString = sharedPreferences.getString("WATCHLIST", "[]");
 
         try {
             JSONArray watchlist = new JSONArray(watchlistString);
+            boolean isInWatchlist = false;
 
-            // Check if the movie is already in the watchlist
             for (int i = 0; i < watchlist.length(); i++) {
                 JSONObject existingMovie = watchlist.getJSONObject(i);
-                if (existingMovie.getString("id").equals(movie.getString("id"))) {
-                    return false; // Movie already in the watchlist
+                if (existingMovie.getString("id").equals(movieId)) {
+                    isInWatchlist = true;
+                    watchlist.remove(i);
+                    sharedPreferences.edit().putString("WATCHLIST", watchlist.toString()).apply();
+                    Toast.makeText(this, "Removed from Watchlist", Toast.LENGTH_SHORT).show();
+                    break;
                 }
             }
 
-            // Add movie to the watchlist
-            watchlist.put(movie);
-            sharedPreferences.edit().putString("WATCHLIST", watchlist.toString()).apply();
-            return true;
+            if (!isInWatchlist) {
+                JSONObject movie = new JSONObject();
+                movie.put("id", movieId);
+                movie.put("title", title);
+                movie.put("poster_path", imagePath);
+                watchlist.put(movie);
+                sharedPreferences.edit().putString("WATCHLIST", watchlist.toString()).apply();
+                Toast.makeText(this, "Added to Watchlist", Toast.LENGTH_SHORT).show();
+            }
+
+            // Update button state
+            updateAddButtonState();
+
         } catch (JSONException e) {
             e.printStackTrace();
-            return false;
         }
     }
 
-    // Fetch movie details
+    private void updateAddButtonState() {
+        SharedPreferences sharedPreferences = getSharedPreferences("WatchlistPrefs", MODE_PRIVATE);
+        String watchlistString = sharedPreferences.getString("WATCHLIST", "[]");
+
+        try {
+            JSONArray watchlist = new JSONArray(watchlistString);
+            boolean isInWatchlist = false;
+
+            for (int i = 0; i < watchlist.length(); i++) {
+                JSONObject movie = watchlist.getJSONObject(i);
+                if (movie.getString("id").equals(movieId)) {
+                    isInWatchlist = true;
+                    break;
+                }
+            }
+
+            // Change button image based on watchlist state
+            if (isInWatchlist) {
+                add.setImageResource(R.drawable.remove); // Replace with the actual "remove" drawable
+                add.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.red));
+
+            } else {
+                add.setImageResource(R.drawable.add); // Replace with the actual "add" drawable
+                add.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.green_shade));
+
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     private class FetchMovieDetails extends AsyncTask<String, Void, String> {
         private static final String TMDB_MOVIE_DETAILS_URL = "https://api.themoviedb.org/3/movie/";
 
@@ -232,6 +248,9 @@ public class MovieDetailsActivity extends AppCompatActivity {
                     String fullImageUrl = "https://image.tmdb.org/t/p/w500" + imagePath;
                     Picasso.get().load(fullImageUrl).into(movieImage);
                 }
+
+                // Update button state after loading movie details
+                updateAddButtonState();
 
             } catch (JSONException e) {
                 e.printStackTrace();
