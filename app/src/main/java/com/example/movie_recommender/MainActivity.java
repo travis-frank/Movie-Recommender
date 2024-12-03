@@ -88,9 +88,14 @@ public class MainActivity extends AppCompatActivity {
                             DatabaseReference database = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
                             database.child("tmdbAccountId").get().addOnCompleteListener(dataTask -> {
                                 if (dataTask.isSuccessful()) {
-                                    String accountId = dataTask.getResult().getValue(String.class);
-                                    Toast.makeText(this, "Login successful! Account ID: " + accountId, Toast.LENGTH_SHORT).show();
-                                    navigateToHome(accountId);
+                                    Object accountIdObj = dataTask.getResult().getValue();
+                                    if (accountIdObj != null) {
+                                        String accountId = String.valueOf(accountIdObj); // Convert to String
+                                        Toast.makeText(this, "Login successful! Account ID: " + accountId, Toast.LENGTH_SHORT).show();
+                                        navigateToHome(accountId);
+                                    } else {
+                                        Toast.makeText(this, "TMDb Account ID not found.", Toast.LENGTH_SHORT).show();
+                                    }
                                 } else {
                                     Toast.makeText(this, "Failed to retrieve TMDb Account ID", Toast.LENGTH_SHORT).show();
                                 }
@@ -101,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
+
 
     private void signUpUser() {
         String email = emailInput.getText().toString().trim();
@@ -129,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
                         // Create TMDb session and store account_id
                         FirebaseUser user = auth.getCurrentUser();
                         if (user != null) {
-                            createTmdbSession(user.getUid());
+                            createTmdbSessionAndNavigate(user.getUid());
                         }
                     } else {
                         Toast.makeText(this, "Sign-Up failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -137,8 +143,7 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    // Create a TMDb session and store account_id
-    private void createTmdbSession(String userId) {
+    private void createTmdbSessionAndNavigate(String userId) {
         String tmdbApiKey = "84c9ef7e66fdc40d8347137e2afcf2eb";
         String guestSessionUrl = "https://api.themoviedb.org/3/authentication/guest_session/new?api_key=" + tmdbApiKey;
 
@@ -174,7 +179,10 @@ public class MainActivity extends AppCompatActivity {
                 database.child(userId).child("tmdbAccountId").setValue(accountId)
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
-                                runOnUiThread(() -> Toast.makeText(this, "Account linked with TMDb successfully!", Toast.LENGTH_SHORT).show());
+                                runOnUiThread(() -> {
+                                    Toast.makeText(this, "Account linked with TMDb successfully!", Toast.LENGTH_SHORT).show();
+                                    navigateToHome(String.valueOf(accountId));
+                                });
                             } else {
                                 runOnUiThread(() -> Toast.makeText(this, "Failed to link TMDb account: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show());
                             }
