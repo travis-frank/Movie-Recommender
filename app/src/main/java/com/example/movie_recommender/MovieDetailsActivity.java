@@ -1,6 +1,7 @@
 package com.example.movie_recommender;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -39,6 +40,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
     private TextView movieUrl;                                                                      // To show homepage URL
     private ImageButton back;                                                                       // To go to previous page
     private ImageButton home;                                                                       // To go to home page
+    private ImageButton add;
 
     private static final String API_KEY = "84c9ef7e66fdc40d8347137e2afcf2eb";                       // API for movies TMDB
     @Override
@@ -63,6 +65,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         movieUrl = findViewById(R.id.movieURL);
         back = findViewById(R.id.backButton);
         home = findViewById(R.id.homeButton);
+        add = findViewById(R.id.addButton);
 
         // when User clicks back button it will take them to the previous page by closing the current page
         back.setOnClickListener(new View.OnClickListener() {
@@ -83,12 +86,33 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
 
 
+
+
         String movieId = getIntent().getStringExtra("MOVIE_ID");                              // gets movie ID from intent
         if (movieId != null){
             new FetchMovieDetails().execute(movieId);                                               // start fetching movie
         } else {
             Toast.makeText(this, "Movie Is Missing!!!", Toast.LENGTH_SHORT).show();
         }
+
+
+        // Initialize SharedPreferences (which is used to send the data to a different activity)
+        SharedPreferences sharedPreferences = getSharedPreferences("WatchlistPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        // what happens when you click add button on the watchlist
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (movieId != null){
+
+                }
+            }
+        });
+
+
+
+
     }
 
     // Preforming network operations to fetch movie items for display
