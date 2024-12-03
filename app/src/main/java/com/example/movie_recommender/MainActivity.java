@@ -88,9 +88,14 @@ public class MainActivity extends AppCompatActivity {
                             DatabaseReference database = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
                             database.child("tmdbAccountId").get().addOnCompleteListener(dataTask -> {
                                 if (dataTask.isSuccessful()) {
-                                    String accountId = dataTask.getResult().getValue(String.class);
-                                    Toast.makeText(this, "Login successful! Account ID: " + accountId, Toast.LENGTH_SHORT).show();
-                                    navigateToHome(accountId);
+                                    Object accountIdObj = dataTask.getResult().getValue();
+                                    if (accountIdObj != null) {
+                                        String accountId = String.valueOf(accountIdObj); // Convert to String
+                                        Toast.makeText(this, "Login successful! Account ID: " + accountId, Toast.LENGTH_SHORT).show();
+                                        navigateToHome(accountId);
+                                    } else {
+                                        Toast.makeText(this, "TMDb Account ID not found.", Toast.LENGTH_SHORT).show();
+                                    }
                                 } else {
                                     Toast.makeText(this, "Failed to retrieve TMDb Account ID", Toast.LENGTH_SHORT).show();
                                 }
@@ -101,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
+
 
     private void signUpUser() {
         String email = emailInput.getText().toString().trim();

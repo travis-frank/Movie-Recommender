@@ -7,10 +7,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +34,8 @@ public class SearchMovie extends AppCompatActivity {
     private TextInputEditText movieEditText; // Retrieved from TextInputLayout
     private Button searchButton;
     private TextView resultTextView;
+    private ImageButton back;                                                                       // To go to previous page
+
 
     // TMDB API key
     private static final String API_KEY = "84c9ef7e66fdc40d8347137e2afcf2eb";
@@ -45,6 +49,15 @@ public class SearchMovie extends AppCompatActivity {
         movieInputLayout = findViewById(R.id.movieInput);
         searchButton = findViewById(R.id.searchButton); // Updated Button ID
         resultTextView = findViewById(R.id.resultTextView);
+        back = findViewById(R.id.backButton);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
 
         // Retrieve EditText from TextInputLayout with an explicit cast
         if (movieInputLayout.getEditText() != null) {
@@ -125,23 +138,18 @@ public class SearchMovie extends AppCompatActivity {
                 JSONArray resultsArray = jsonObject.getJSONArray("results");
 
                 if (resultsArray.length() > 0) {
-                    JSONObject firstMovie = resultsArray.getJSONObject(0);
-                    String title = firstMovie.optString("title", "N/A");
-                    String movieId = firstMovie.optString("id", "N/A"); // Extracted Movie ID
+                    SpannableStringBuilder displayText = new SpannableStringBuilder();
 
-                    String displayText = "Title: " + title + "\n\n"
-                            + "Id: " + movieId + "\n\n";
+                    // Iterate through all movies in the results array
+                    for (int i = 0; i < resultsArray.length(); i++) {
+                        JSONObject movie = resultsArray.getJSONObject(i);
+                        String title = movie.optString("title", "N/A");
+                        String movieId = movie.optString("id", "N/A"); // Extracted Movie ID
+                        String releaseDate = movie.optString("release_date", "Unknown");
 
-                    //Mmake the movie title clickable
-                    SpannableString spannableString = new SpannableString(displayText);
-
-                    // Find the start and end indices of the movie title
-                    int titleStart = displayText.indexOf("Title: ") + "Title: ".length();
-                    int titleEnd = displayText.indexOf("\n\n", titleStart);
-
-                    if (titleStart != -1 && titleEnd != -1 && titleEnd > titleStart) {
-                        // Set a ClickableSpan on the movie title
-                        spannableString.setSpan(new ClickableSpan() {
+                        // Create a SpannableString for each movie title
+                        SpannableString spannableTitle = new SpannableString(title + "\n");
+                        spannableTitle.setSpan(new ClickableSpan() {
                             @Override
                             public void onClick(View widget) {
                                 if (!movieId.equals("N/A")) {
@@ -153,11 +161,16 @@ public class SearchMovie extends AppCompatActivity {
                                     Toast.makeText(SearchMovie.this, "Movie ID not available.", Toast.LENGTH_SHORT).show();
                                 }
                             }
-                        }, titleStart, titleEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        }, 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                        // Append the clickable title and other details to the displayText
+                        displayText.append(spannableTitle);
+                        displayText.append("Release Date: ").append(releaseDate).append("\n\n");
                     }
 
-                    resultTextView.setText(spannableString);
-                    resultTextView.setMovementMethod(LinkMovementMethod.getInstance()); // Enable link clicking
+                    // Set the displayText to the resultTextView
+                    resultTextView.setText(displayText);
+                    resultTextView.setMovementMethod(LinkMovementMethod.getInstance()); // Enable clickable links
 
                 } else {
                     resultTextView.setText("No results found.");
@@ -169,6 +182,7 @@ public class SearchMovie extends AppCompatActivity {
                 Toast.makeText(SearchMovie.this, "Parsing error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
+
     }
 }
 
