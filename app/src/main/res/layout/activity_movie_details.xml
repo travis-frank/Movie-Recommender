@@ -51,23 +51,22 @@
 
     <TextView
         android:id="@+id/runtimeView"
-        android:layout_width="384dp"
-        android:layout_height="23dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="17dp"
+        android:layout_width="250dp"
+        android:layout_height="20dp"
         android:text="Runtime"
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/popularityView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.062"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/languageView" />
 
     <TextView
         android:id="@+id/languageView"
-        android:layout_width="388dp"
+        android:layout_width="250dp"
         android:layout_height="23dp"
         android:layout_marginStart="10dp"
-        android:layout_marginEnd="13dp"
+        android:layout_marginEnd="151dp"
         android:layout_marginBottom="1dp"
         android:text="Language"
         android:textSize="14sp"
@@ -78,16 +77,15 @@
 
     <TextView
         android:id="@+id/popularityView"
-        android:layout_width="387dp"
+        android:layout_width="250dp"
         android:layout_height="19dp"
-        android:layout_marginStart="10dp"
         android:layout_marginTop="1dp"
-        android:layout_marginEnd="14dp"
         android:layout_marginBottom="1dp"
         android:text="Popularity"
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/vote"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.062"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/runtimeView" />
 
@@ -164,17 +162,19 @@
 
     <Button
         android:id="@+id/reviewpage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/white"
+        android:layout_width="137dp"
+        android:layout_height="43dp"
+        android:backgroundTint="@color/red"
         android:text="@string/reviewPage"
         android:textColor="@color/black"
         android:textSize="18dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.942"
+        app:layout_constraintHorizontal_bias="0.974"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.934" />
+        app:layout_constraintVertical_bias="0.899"
+
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
