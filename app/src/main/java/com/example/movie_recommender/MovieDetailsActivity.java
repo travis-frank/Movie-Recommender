@@ -46,7 +46,6 @@ public class MovieDetailsActivity extends AppCompatActivity {
     private String movieId;
 
     private static final String API_KEY = "84c9ef7e66fdc40d8347137e2afcf2eb";                       // API for movies TMDB
-    private String movieId;
     private String title;
     private String imagePath;
 

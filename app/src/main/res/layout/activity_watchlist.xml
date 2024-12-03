@@ -9,11 +9,11 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="392dp"
-        android:layout_height="620dp"
+        android:layout_width="390dp"
+        android:layout_height="600dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="-4dp">
+        tools:layout_editor_absoluteX="-2dp">
 
         <ListView
             android:id="@+id/watchlistView"
