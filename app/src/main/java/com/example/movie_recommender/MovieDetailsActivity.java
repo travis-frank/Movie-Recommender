@@ -19,6 +19,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -45,6 +46,10 @@ public class MovieDetailsActivity extends AppCompatActivity {
     private String movieId;
 
     private static final String API_KEY = "84c9ef7e66fdc40d8347137e2afcf2eb";                       // API for movies TMDB
+    private String movieId;
+    private String title;
+    private String imagePath;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +61,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
             return insets;
         });
 
-        // initialize UI components
+        // Initialize UI components
         movieImage = findViewById(R.id.movieImageView);
         movieTitle = findViewById(R.id.movieNameView);
         description = findViewById(R.id.descriptionView);
@@ -70,21 +75,13 @@ public class MovieDetailsActivity extends AppCompatActivity {
         add = findViewById(R.id.addButton);
         reviewButton = findViewById(R.id.reviewpage);
 
-        // when User clicks back button it will take them to the previous page by closing the current page
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        // Navigate back
+        back.setOnClickListener(view -> finish());
 
-        // when user clicks home button it will take them to the homepage
-        home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MovieDetailsActivity.this, Homepage.class);
-                startActivity(intent);
-            }
+        // Navigate home
+        home.setOnClickListener(view -> {
+            Intent intent = new Intent(MovieDetailsActivity.this, Homepage.class);
+            startActivity(intent);
         });
 
         // when user clicks review page it will take them to the review activity
@@ -100,45 +97,69 @@ public class MovieDetailsActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-
         movieId = getIntent().getStringExtra("MOVIE_ID");                              // gets movie ID from intent
         if (movieId != null){
             new FetchMovieDetails().execute(movieId);                                               // start fetching movie
+
         } else {
-            Toast.makeText(this, "Movie Is Missing!!!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Movie is Missing!!!", Toast.LENGTH_SHORT).show();
         }
 
+        // Add movie to watchlist
+        add.setOnClickListener(view -> {
+            if (movieId != null && title != null) {
+                try {
+                    JSONObject movie = new JSONObject();
+                    movie.put("id", movieId);
+                    movie.put("title", title);
+                    movie.put("poster_path", imagePath);
 
-        // Initialize SharedPreferences (which is used to send the data to a different activity)
-        SharedPreferences sharedPreferences = getSharedPreferences("WatchlistPrefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        // what happens when you click add button on the watchlist
-        add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (movieId != null){
-
+                    // Add movie to watchlist
+                    if (addToWatchlist(movie)) {
+                        Toast.makeText(MovieDetailsActivity.this, "Added to Watchlist", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(MovieDetailsActivity.this, "Already in Watchlist", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
         });
-
-
-
-
     }
 
-    // Preforming network operations to fetch movie items for display
+    // Add movie to watchlist in SharedPreferences
+    private boolean addToWatchlist(JSONObject movie) {
+        SharedPreferences sharedPreferences = getSharedPreferences("WatchlistPrefs", MODE_PRIVATE);
+        String watchlistString = sharedPreferences.getString("WATCHLIST", "[]");
+
+        try {
+            JSONArray watchlist = new JSONArray(watchlistString);
+
+            // Check if the movie is already in the watchlist
+            for (int i = 0; i < watchlist.length(); i++) {
+                JSONObject existingMovie = watchlist.getJSONObject(i);
+                if (existingMovie.getString("id").equals(movie.getString("id"))) {
+                    return false; // Movie already in the watchlist
+                }
+            }
+
+            // Add movie to the watchlist
+            watchlist.put(movie);
+            sharedPreferences.edit().putString("WATCHLIST", watchlist.toString()).apply();
+            return true;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // Fetch movie details
     private class FetchMovieDetails extends AsyncTask<String, Void, String> {
         private static final String TMDB_MOVIE_DETAILS_URL = "https://api.themoviedb.org/3/movie/";
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            // Show loading placeholder
             movieTitle.setText("Loading...");
             description.setText("");
         }
@@ -154,13 +175,11 @@ public class MovieDetailsActivity extends AppCompatActivity {
                 connection.setRequestMethod("GET");
                 connection.connect();
 
-                // Check for successful response
                 int responseCode = connection.getResponseCode();
                 if (responseCode != HttpURLConnection.HTTP_OK) {
                     return "Server returned: " + responseCode + " " + connection.getResponseMessage();
                 }
 
-                // Read response
                 BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 StringBuilder jsonBuilder = new StringBuilder();
                 String line;
@@ -182,11 +201,10 @@ public class MovieDetailsActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             try {
-                // Parse JSON response
                 JSONObject jsonObject = new JSONObject(result);
-                String title = jsonObject.optString("title", "N/A");
+                title = jsonObject.optString("title", "N/A");
                 String descriptionMovie = jsonObject.optString("overview", "Description not available");
-                String imagePath = jsonObject.optString("poster_path", null);
+                imagePath = jsonObject.optString("poster_path", null);
                 String runtime = jsonObject.optInt("runtime", 0) + " minutes";
                 String language = jsonObject.optString("original_language", "Unknown").toUpperCase();
                 String popularity = String.format("%.2f", jsonObject.optDouble("popularity", 0.0));
@@ -194,20 +212,13 @@ public class MovieDetailsActivity extends AppCompatActivity {
                 int voteCount = jsonObject.optInt("vote_count", 0);
                 String homepage = jsonObject.optString("homepage", "N/A");
 
-                // Set title and description
                 movieTitle.setText(title);
                 description.setText(descriptionMovie);
-
-                // Set runtime and language
                 runtimeView.setText("Runtime: " + runtime);
                 languageView.setText("Language: " + language);
-
-                // Set popularity and vote info
                 popularityView.setText("Popularity: " + popularity);
                 voteView.setText("Rating: " + voteAverage + " / 10 (" + voteCount + " votes)");
 
-                // Set homepage URL
-                // Set homepage URL
                 if (homepage != null && !homepage.isEmpty()) {
                     movieUrl.setText("Visit Homepage");
                     movieUrl.setOnClickListener(view -> {
@@ -218,8 +229,6 @@ public class MovieDetailsActivity extends AppCompatActivity {
                     movieUrl.setVisibility(View.GONE);
                 }
 
-
-                // Load image using Picasso library
                 if (imagePath != null) {
                     String fullImageUrl = "https://image.tmdb.org/t/p/w500" + imagePath;
                     Picasso.get().load(fullImageUrl).into(movieImage);
@@ -232,29 +241,3 @@ public class MovieDetailsActivity extends AppCompatActivity {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
