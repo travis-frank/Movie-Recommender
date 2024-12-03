@@ -52,8 +52,8 @@ public class Homepage extends AppCompatActivity {
         watchlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Intent intent = new Intent(Homepage.this, watchlistActivity.class);
-                // startActivity(intent);
+                 Intent intent = new Intent(Homepage.this, Watchlist.class);
+                 startActivity(intent);
             }
         });
 
