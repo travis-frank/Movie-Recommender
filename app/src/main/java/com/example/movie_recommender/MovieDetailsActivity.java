@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -44,6 +45,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
     private ImageButton home;
     private ImageButton add;
     private String movieId;
+    private Button reviewButton;
 
                 
     private static final String API_KEY = "84c9ef7e66fdc40d8347137e2afcf2eb";
@@ -74,6 +76,8 @@ public class MovieDetailsActivity extends AppCompatActivity {
         back = findViewById(R.id.backButton);
         home = findViewById(R.id.homeButton);
         add = findViewById(R.id.addButton);
+        reviewButton = findViewById(R.id.reviewpage);
+
 
         // Navigate back
         back.setOnClickListener(view -> finish());
