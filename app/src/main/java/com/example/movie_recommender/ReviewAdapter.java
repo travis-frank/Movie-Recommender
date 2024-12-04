@@ -36,7 +36,16 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
         try {
             // Get the review data
             JSONObject review = reviewList.get(position);
-            String username = review.optString("author", "Anonymous");
+
+            // Check if the review is local
+            boolean isLocal = review.optBoolean("isLocal", false);
+            String username;
+            if (isLocal) {
+                username = "Your Review";
+            } else {
+                username = review.optString("author", "Anonymous");
+            }
+
             String content = review.optString("content", "No content available.");
             double rating = review.optJSONObject("author_details").optDouble("rating", 0.0);
             if (rating >= 0) {
@@ -49,7 +58,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
             }
 
             // Bind the data to the views
-            holder.authorTextView.setText("Username: " + username);
+            holder.authorTextView.setText(username);
             holder.reviewOutput.setText(content);
             holder.ratingBar.setRating((float) rating);
         } catch (Exception e) {

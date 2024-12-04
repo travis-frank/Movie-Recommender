@@ -45,7 +45,9 @@ public class MovieDetailsActivity extends AppCompatActivity {
     private ImageButton add;
     private String movieId;
 
+                
     private static final String API_KEY = "84c9ef7e66fdc40d8347137e2afcf2eb";
+
     private String title;
     private String imagePath;
 
@@ -82,9 +84,25 @@ public class MovieDetailsActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+
+        // when user clicks review page it will take them to the review activity
+        reviewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (movieId != null & movieTitle != null)  { // Ensure movieId is not null
+                    Intent intent = new Intent(MovieDetailsActivity.this, ReviewMovie.class);
+                    intent.putExtra("MOVIE_ID", movieId); // movieId is a String
+                    intent.putExtra("MOVIE_NAME", title);
+                    startActivity(intent);
+                }
+            }
+        });
+                                            
+
         movieId = getIntent().getStringExtra("MOVIE_ID");
         if (movieId != null) {
             new FetchMovieDetails().execute(movieId);
+
         } else {
             Toast.makeText(this, "Movie is Missing!!!", Toast.LENGTH_SHORT).show();
         }
