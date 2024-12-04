@@ -46,7 +46,6 @@ public class MovieDetailsActivity extends AppCompatActivity {
     private String movieId;
 
     private static final String API_KEY = "84c9ef7e66fdc40d8347137e2afcf2eb";                       // API for movies TMDB
-    private String movieId;
     private String title;
     private String imagePath;
 
@@ -89,10 +88,10 @@ public class MovieDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (movieId != null & movieTitle != null)  { // Ensure movieId is not null
-                    //Intent intent = new Intent(MovieDetailsActivity.this, reviewPage.class);
-                    //intent.putExtra("MOVIE_ID", movieId); // Pass the movie ID to the next activity
-                    //intent.putExtra("MOVIE_NAME", movieTitle);
-                    //startActivity(intent);
+                    Intent intent = new Intent(MovieDetailsActivity.this, ReviewMovie.class);
+                    intent.putExtra("MOVIE_ID", movieId); // movieId is a String
+                    intent.putExtra("MOVIE_NAME", title);
+                    startActivity(intent);
                 }
             }
         });
