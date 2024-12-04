@@ -40,7 +40,6 @@ public class FlickFinder extends AppCompatActivity {
     private Button searchButton;
     private TextView resultTextView;
     private ImageButton back;                                                                       // To go to previous page
-    private ImageButton home;
 
     private static final String API_KEY = "84c9ef7e66fdc40d8347137e2afcf2eb"; // Replace with your TMDb API key
     private static final String TMDB_API_URL = "https://api.themoviedb.org/3/discover/movie";
@@ -57,22 +56,16 @@ public class FlickFinder extends AppCompatActivity {
         searchButton = findViewById(R.id.finderButton);
         resultTextView = findViewById(R.id.resultTextView);
         back = findViewById(R.id.backButton);
-        home = findViewById(R.id.homeButton);
+
 
         back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-
-        home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(FlickFinder.this, Homepage.class);
                 startActivity(intent);
             }
         });
+
 
         // Set onClick listener for the search button
         searchButton.setOnClickListener(view -> {

@@ -107,7 +107,9 @@ public class ReviewMovie extends AppCompatActivity {
         backButton.setOnClickListener(v -> {
             Intent backIntent = new Intent(ReviewMovie.this, MovieDetailsActivity.class);
             backIntent.putExtra("MOVIE_ID", String.valueOf(movieId));
+            backIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);  // clears any activity on top of the target activity
             startActivity(backIntent);
+            finish();
         });
 
         // Fetch reviews using the movieId
