@@ -13,7 +13,6 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class Homepage extends AppCompatActivity {
     Button search;
-    Button review;
     Button watchlist;
     Button flickfinder;
 
@@ -29,7 +28,6 @@ public class Homepage extends AppCompatActivity {
         });
 
         search = findViewById(R.id.searchButton);
-        review = findViewById(R.id.reviewButton);
         watchlist = findViewById(R.id.watchlistButton);
         flickfinder = findViewById(R.id.flickFinderButton);
 
@@ -37,14 +35,6 @@ public class Homepage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                  Intent intent = new Intent(Homepage.this, SearchMovie.class);
-                 startActivity(intent);
-            }
-        });
-
-        review.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                 Intent intent = new Intent(Homepage.this, ReviewMovie.class);
                  startActivity(intent);
             }
         });
