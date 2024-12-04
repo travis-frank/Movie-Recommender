@@ -77,19 +77,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         home = findViewById(R.id.homeButton);
         add = findViewById(R.id.addButton);
         reviewButton = findViewById(R.id.reviewpage);
-
-
-        // Navigate back
-        back.setOnClickListener(view -> {
-            Intent intent = new Intent(MovieDetailsActivity.this, SearchMovie.class);
-            startActivity(intent);
-        });
-
-        // Navigate home
-        home.setOnClickListener(view -> {
-            Intent intent = new Intent(MovieDetailsActivity.this, Homepage.class);
-            startActivity(intent);
-        });
+        int ifReview;
 
 
         // when user clicks review page it will take them to the review activity
@@ -97,22 +85,36 @@ public class MovieDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (movieId != null & movieTitle != null)  { // Ensure movieId is not null
-                    Intent intent = new Intent(MovieDetailsActivity.this, ReviewMovie.class);
-                    intent.putExtra("MOVIE_ID", movieId); // movieId is a String
-                    intent.putExtra("MOVIE_NAME", title);
-                    startActivity(intent);
+                    if (movieId != null && title != null) {
+                        Intent intent = new Intent(MovieDetailsActivity.this, ReviewMovie.class);
+                        intent.putExtra("MOVIE_ID", movieId);
+                        intent.putExtra("MOVIE_NAME", title);
+                        startActivityForResult(intent, 1); // Start ReviewPage with a request code
+                    }
                 }
             }
         });
                                             
 
         movieId = getIntent().getStringExtra("MOVIE_ID");
+        ifReview = getIntent().getIntExtra("REVIEWPAGE_ID", -1);
         if (movieId != null) {
             new FetchMovieDetails().execute(movieId);
 
         } else {
             Toast.makeText(this, "Movie is Missing!!!", Toast.LENGTH_SHORT).show();
         }
+
+        // Navigate back
+        back.setOnClickListener(view -> {
+            finish();
+        });
+
+        // Navigate home
+        home.setOnClickListener(view -> {
+            Intent intent = new Intent(MovieDetailsActivity.this, Homepage.class);
+            startActivity(intent);
+        });
 
         // Handle add/remove button click
         add.setOnClickListener(view -> {

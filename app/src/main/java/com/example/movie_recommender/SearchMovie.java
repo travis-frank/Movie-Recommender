@@ -54,7 +54,8 @@ public class SearchMovie extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                Intent intent = new Intent(SearchMovie.this, Homepage.class);
+                startActivity(intent);
             }
         });
 

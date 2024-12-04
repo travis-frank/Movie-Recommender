@@ -23,6 +23,7 @@ public class Watchlist extends AppCompatActivity {
     private JSONArray watchlist; // To keep track of the JSON array
     private ImageButton back;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +35,10 @@ public class Watchlist extends AppCompatActivity {
         // Load watchlist
         loadWatchlist();
 
-        back.setOnClickListener(view -> finish());
+        back.setOnClickListener(view -> {
+            Intent intent = new Intent(Watchlist.this, Homepage.class);
+            startActivity(intent);
+        });
 
         // Set item click listener to navigate to MovieDetailsActivity
         watchlistView.setOnItemClickListener((AdapterView<?> parent, android.view.View view, int position, long id) -> {
