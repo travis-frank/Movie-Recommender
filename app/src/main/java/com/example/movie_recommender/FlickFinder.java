@@ -80,6 +80,12 @@ public class FlickFinder extends AppCompatActivity {
             String actorName = actorInput.getText().toString().trim();
             String year = yearInput.getText().toString().trim();
 
+            // Check if the year is greater than 2024
+            if (!year.isEmpty() && Integer.parseInt(year) > 2024) {
+                Toast.makeText(FlickFinder.this, "Year is invalid", Toast.LENGTH_SHORT).show();
+                return; // Exit early if the year is invalid
+            }
+
             // Execute the search task
             new FetchMoviesTask().execute(selectedGenre, actorName, year);
         });
