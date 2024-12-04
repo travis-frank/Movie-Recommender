@@ -80,7 +80,10 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
 
         // Navigate back
-        back.setOnClickListener(view -> finish());
+        back.setOnClickListener(view -> {
+            Intent intent = new Intent(MovieDetailsActivity.this, SearchMovie.class);
+            startActivity(intent);
+        });
 
         // Navigate home
         home.setOnClickListener(view -> {
