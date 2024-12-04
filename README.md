@@ -56,4 +56,4 @@ The Movie Recommender App is a user-friendly application designed to help users 
 - **`build.gradle.kts`**: Project dependencies and build settings.
 
 # Screenshots
-![Login](./Images/login)
+![Login](Images/login.png)
