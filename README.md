@@ -9,6 +9,7 @@ The Movie Recommender App is a user-friendly application designed to help users 
 
 https://github.com/user-attachments/assets/4909ce77-03dc-4b33-8b0b-dad40dafbcf0
 
+---
 # Features
 - **Movie Discovery**: Get recommendations based on user-selected filters.
 - **Search Functionality**: Search for specific movies or browse categories.
