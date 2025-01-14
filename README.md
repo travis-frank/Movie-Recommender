@@ -5,6 +5,9 @@
 The Movie Recommender App is a user-friendly application designed to help users discover movies based on their preferences. It leverages the TMDB (The Movie Database) API to provide accurate and diverse movie recommendations, tailored to filters like genres, ratings, and release dates.
 
 ---
+# Demonstration
+
+https://github.com/user-attachments/assets/4909ce77-03dc-4b33-8b0b-dad40dafbcf0
 
 # Features
 - **Movie Discovery**: Get recommendations based on user-selected filters.
@@ -55,4 +58,3 @@ The Movie Recommender App is a user-friendly application designed to help users 
   - **`res`**: UI resources (layouts, values, drawables).
 - **`build.gradle.kts`**: Project dependencies and build settings.
 
-# Screenshots
